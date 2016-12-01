@@ -12,6 +12,7 @@ app:layout_behavior="@string/appbar_scrolling_view_behavior"
 tools:context="com.example.lucas.testefb7.SignUpFragmentCliente"
 tools:showIn="@layout/activity_sign_up">
 
+
     <ScrollView
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -29,7 +30,7 @@ tools:showIn="@layout/activity_sign_up">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="CLIENTE"
+                android:text="CLIENTE :"
                 android:layout_gravity="center_horizontal"/>
 
         </LinearLayout>
