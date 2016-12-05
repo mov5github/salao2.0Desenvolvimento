@@ -47,8 +47,10 @@
     <string name="title_activity_remove_user">RemoveUserActivity</string>
     <string name="title_activity_frist_time">FristTimeActivity</string>
     <string name="title_activity_sign_up2">SignUpActivity2</string>
-    <string name="title_activity_catastro">CatastroActivity</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_catastro">CadastroActivity</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_home">HomeActivity</string>
 </resources>

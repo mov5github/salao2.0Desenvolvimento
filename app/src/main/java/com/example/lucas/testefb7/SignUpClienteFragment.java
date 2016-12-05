@@ -47,19 +47,59 @@ public class SignUpClienteFragment extends Fragment {
         password = (EditText) view.findViewById(R.id.password);
     }
 
-
-
-    public String getNomeCadastroFragment(){
-        return name.getText().toString();
+    public boolean validaFormulario(){
+       if (nameIsValid() && emailIsValid() && passwordIsvalid()){
+           return true;
+       }else return false;
     }
 
-    public String getEmailCadastroFragment(){
-        return email.getText().toString();
+    private Boolean nameIsValid(){
+        if (name.getText().toString().isEmpty()){
+            name.setError("Campo Obrigatório");
+            name.requestFocus();
+            return false;
+        }else{
+            return true;
+        }
     }
 
-    public String getPasswordCadastroFragment(){
-        return password.getText().toString();
+    private Boolean emailIsValid(){
+        if (email.getText().toString().isEmpty()){
+            email.setError("Campo Obrigatório");
+            email.requestFocus();
+            return false;
+        }else{
+            return true;
+        }
     }
+
+    private Boolean passwordIsvalid(){
+        if (password.getText().toString().isEmpty()){
+            password.setError("Campo Obrigatório");
+            password.requestFocus();
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+
+    //Getters and Setters
+    public AutoCompleteTextView getName() {
+        return name;
+    }
+
+    public AutoCompleteTextView getEmail() {
+        return email;
+    }
+
+    public EditText getPassword() {
+        return password;
+    }
+
+
+
+
 
 
 }

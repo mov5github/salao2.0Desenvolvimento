@@ -1,5 +1,7 @@
 package com.example.lucas.testefb7.domain;
 
+import android.content.Context;
+
 import com.example.lucas.testefb7.Auxiliares.DadosUsuario;
 import com.example.lucas.testefb7.domain.util.LibraryClass;
 import com.google.firebase.database.DatabaseReference;
@@ -32,6 +34,11 @@ public class User {
         }
     }
 
+    public boolean isSocialNetworkLogged( Context context ){
+        String token = getProviderSP( context );
+        return( token.contains("facebook") || token.contains("google") || token.contains("twitter") || token.contains("github") );
+    }
+
     public void setNameIfNull(String name) {
         if( this.name == null ){
             this.name = name;
@@ -43,6 +50,13 @@ public class User {
             this.email = email;
         }
 
+    }
+
+    public void saveProviderSP(Context context, String token ){
+        LibraryClass.saveSP( context, PROVIDER, token );
+    }
+    public String getProviderSP(Context context ){
+        return( LibraryClass.getSP( context, PROVIDER) );
     }
 
 
