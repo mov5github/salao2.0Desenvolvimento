@@ -18,6 +18,7 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.example.lucas.testefb7.domain.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -36,6 +37,8 @@ public class SignUpActivity extends CommonActivity implements DatabaseReference.
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private User user;
     private AutoCompleteTextView name;
+    private AutoCompleteTextView rg;
+    private TextView dataNascimento;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,14 +66,7 @@ public class SignUpActivity extends CommonActivity implements DatabaseReference.
 
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
     }
 
 
@@ -96,6 +92,8 @@ public class SignUpActivity extends CommonActivity implements DatabaseReference.
             name = ((SignUpClienteFragment) fragment).getName();
             email = ((SignUpClienteFragment) fragment).getEmail();
             password = ((SignUpClienteFragment) fragment).getPassword();
+            rg = ((SignUpClienteFragment)fragment).getRg();
+            dataNascimento = ((SignUpClienteFragment) fragment).getDataNascimento();
 
         }else if (fragment instanceof SignUpSalaoFragment){
             name = ((SignUpSalaoFragment) fragment).getName();
@@ -107,17 +105,26 @@ public class SignUpActivity extends CommonActivity implements DatabaseReference.
             name = new AutoCompleteTextView(this);
             email = new AutoCompleteTextView(this);
             password = new EditText(this);
+            rg = new AutoCompleteTextView(this);
+            dataNascimento = new AutoCompleteTextView(this);
         }
 
     }
 
     @Override
     protected void initUser() {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container_signup);
         user = new User();
         user.setName( name.getText().toString() );
         user.setEmail( email.getText().toString() );
         user.setPassword( password.getText().toString() );
-
+        if (fragment instanceof SignUpClienteFragment){
+            user.setTipoUsuario("cliente");
+            user.setRg(rg.getText().toString());
+            user.setDataNascimento(dataNascimento.getText().toString());
+        }else if (fragment instanceof SignUpSalaoFragment){
+            user.setTipoUsuario("salao");
+        }
 
     }
 
@@ -223,12 +230,14 @@ public class SignUpActivity extends CommonActivity implements DatabaseReference.
         switch (view.getId()) {
             case R.id.radio_cliente:
                 if (checked) {
+                    tronaBotaoVisivel();
                     SignUpClienteFragment fragCliente = new SignUpClienteFragment();;
                     replaceFragment(fragCliente);
                 }
                 break;
             case R.id.radio_salao:
                 if (checked) {
+                    tronaBotaoVisivel();
                     SignUpSalaoFragment fragSalao = new SignUpSalaoFragment();
                     replaceFragment(fragSalao);
                 }
@@ -236,6 +245,39 @@ public class SignUpActivity extends CommonActivity implements DatabaseReference.
             default:
                 break;
         }
+    }
+
+    public void onRadioButtonSexoClicked(View view) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+
+        // Check which radio button was clicked
+        switch (view.getId()) {
+            case R.id.radio_masculino:
+                if (checked) {
+                    showToast("masculino");
+                }
+                break;
+            case R.id.radio_feminino:
+                if (checked) {
+                   showToast("feminino");
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void dataNascimento(View view) {
+        SignUpClienteFragment fragment = (SignUpClienteFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container_signup);
+        fragment.getFromDatePickerDialog().show();
+
+
+    }
+
+    public void tronaBotaoVisivel(){
+        Button button = (Button)findViewById(R.id.button_cadastrar);
+        button.setVisibility(View.VISIBLE);
     }
 
     private void addFragment(Fragment fragment) {
@@ -286,7 +328,6 @@ public class SignUpActivity extends CommonActivity implements DatabaseReference.
         }
         return string;
     }
-
 
 
 }

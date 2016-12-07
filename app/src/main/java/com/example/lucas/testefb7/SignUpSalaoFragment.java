@@ -19,6 +19,7 @@ public class SignUpSalaoFragment extends Fragment {
     protected EditText password;
 
 
+
     public SignUpSalaoFragment() {
         // Required empty public constructor
     }
@@ -47,6 +48,7 @@ public class SignUpSalaoFragment extends Fragment {
     private Boolean nameIsValid(){
         if (name.getText().toString().isEmpty()){
             name.setError("Campo Obrigatório");
+            name.requestFocus();
             return false;
         }else{
             return true;
@@ -56,6 +58,7 @@ public class SignUpSalaoFragment extends Fragment {
     private Boolean emailIsValid(){
         if (email.getText().toString().isEmpty()){
             email.setError("Campo Obrigatório");
+            email.requestFocus();
             return false;
         }else{
             return true;
@@ -65,6 +68,7 @@ public class SignUpSalaoFragment extends Fragment {
     private Boolean passwordIsvalid(){
         if (password.getText().toString().isEmpty()){
             password.setError("Campo Obrigatório");
+            password.requestFocus();
             return false;
         }else{
             return true;

@@ -5,9 +5,10 @@
 
     <!-- Strings related to login -->
     <string name="action_sign_in">Logar</string>
-    <string name="action_sign_in_facebook">Sign in com Facebook</string>
-    <string name="action_sign_in_github">Sign in com GitHub</string>
-    <string name="action_sign_in_google">Sign in com Google</string>
+    <string name="action_sign_in_email">Logar com Email</string>
+    <string name="action_sign_in_facebook">Logar com Facebook</string>
+    <string name="action_sign_in_github">Logar com GitHub</string>
+    <string name="action_sign_in_google">Logar com Google</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="action_sign_in_twitter">Sign in com Twitter</string>
     <string name="action_sign_up">Cadastrar</string>
@@ -16,22 +17,28 @@
     <string name="action_reset_call">Recuperar acesso</string>
     <string name="link_accounts">Link contas</string>
     <string name="logout">Logout</string>
+    <string name="prompt_data_nascimento">Data de Nascimento</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_endereco_cidade">Cidade</string>
     <string name="prompt_endereco_complemento">Complemento</string>
     <string name="prompt_endereco_estado">Estado</string>
     <string name="prompt_endereco_numero">nº</string>
     <string name="prompt_endereco_rua">Rua</string>
-    <string name="prompt_feminino">Mulher</string>
-    <string name="prompt_masculino">Homem</string>
+    <string name="prompt_feminino">Feminino</string>
+    <string name="prompt_masculino">Masculino</string>
     <string name="prompt_name">Nome Completo</string>
     <string name="prompt_name_completo">Nome Completo</string>
+    <string name="prompt_name_salao">Nome do Salão</string>
     <string name="prompt_nascimento_dia">Dia</string>
     <string name="prompt_nascimento_mes">Mês</string>
     <string name="prompt_nascimento_ano">Ano</string>
     <string name="prompt_password">Senha</string>
     <string name="prompt_password_again">Confirme a Senha</string>
     <string name="prompt_rg">RG</string>
+    <string name="prompt_spinner_sexo">Sexo</string>
+    <string name="prompt_telefone1">Telefone 1</string>
+    <string name="prompt_telefone2">Telefone 2</string>
+    <string name="prompt_unisex">Unisex</string>
     <string name="remove_user">Remover conta</string>
     <string name="reset">Recuperar acesso</string>
     <string name="reset_bt_label">Iniciar recuperação acesso</string>

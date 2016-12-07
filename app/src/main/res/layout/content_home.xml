@@ -13,10 +13,21 @@
     tools:context="com.example.lucas.testefb7.HomeActivity"
     tools:showIn="@layout/activity_home">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/etxt_fromdate"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="HOME"
-        android:layout_centerHorizontal="true"/>
+        android:hint="fromDate"
+        android:layout_alignParentTop="true" />
+
+    <EditText
+        android:id="@+id/etxt_todate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="toDate"
+        android:layout_below="@id/etxt_fromdate"/>
+
+
+
 
 </RelativeLayout>

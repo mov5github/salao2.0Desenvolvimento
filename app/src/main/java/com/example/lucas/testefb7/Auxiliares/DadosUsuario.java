@@ -5,17 +5,15 @@ package com.example.lucas.testefb7.Auxiliares;
  */
 
 public final class DadosUsuario {
-    private String id;
-    private String name;
     private String tipoUsuario;
-    private char sexo;
-    private String rg;
-    private String dataNascimento;
-    private String cidade;
-    private String estado;
-    private String rua;
-    private int numero;
-    private String complemento;
+   // private char sexo;
+    //private String rg;
+    //private String dataNascimento;
+    //private String cidade;
+    //private String estado;
+    //private String rua;
+    //private int numero;
+    //private String complemento;
 
     public DadosUsuario(){}
 
@@ -27,7 +25,7 @@ public final class DadosUsuario {
         this.tipoUsuario = tipoUsuario;
     }
 
-    public String getName() {
+    /*public String getName() {
         return name;
     }
     public void setName(String name) {
@@ -95,6 +93,6 @@ public final class DadosUsuario {
     }
     public void setComplemento(String complemento) {
         this.complemento = complemento;
-    }
+    }*/
 
 }

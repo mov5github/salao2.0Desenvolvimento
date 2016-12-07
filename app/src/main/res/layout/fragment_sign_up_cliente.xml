@@ -10,7 +10,7 @@ android:paddingRight="@dimen/activity_horizontal_margin"
 android:paddingTop="@dimen/activity_vertical_margin"
 app:layout_behavior="@string/appbar_scrolling_view_behavior"
 tools:context="com.example.lucas.testefb7.SignUpClienteFragment"
-tools:showIn="@layout/activity_login">
+tools:showIn="@layout/activity_sign_up">
 
 
 
@@ -29,11 +29,12 @@ tools:showIn="@layout/activity_login">
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/labelCliente"
+                android:id="@+id/labelDadosCliente"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="CLIENTE :"
-                android:layout_gravity="center_horizontal"/>
+                android:text="Dados do Pessoais :"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@android:color/black" />
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -52,6 +53,118 @@ tools:showIn="@layout/activity_login">
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
+
+                <EditText
+                    android:id="@+id/data_nascimento"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/prompt_data_nascimento"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:onClick="dataNascimento"
+                    android:textColor="@android:color/darker_gray"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
+
+                <AutoCompleteTextView
+                    android:id="@+id/rg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/prompt_rg"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:id="@+id/label_sexo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sexo"
+                android:textColor="@color/gray"
+                android:layout_marginTop="5dp"/>
+
+            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="3dp">
+                <RadioButton android:id="@+id/radio_masculino"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/prompt_masculino"
+                    android:onClick="onRadioButtonSexoClicked"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"/>
+                <RadioButton android:id="@+id/radio_feminino"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/prompt_feminino"
+                    android:onClick="onRadioButtonSexoClicked"/>
+            </RadioGroup>
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp">
+
+                <TableRow
+                    android:orientation="horizontal">
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/telefone1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/prompt_telefone1"
+                            android:inputType="phone"
+                            android:maxLines="1"
+                            android:singleLine="true" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/telefone2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/prompt_telefone2"
+                            android:inputType="textAutoComplete"
+                            android:maxLines="1"
+                            android:singleLine="true" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                </TableRow>
+
+            </TableLayout>
+
+            <TextView
+                android:id="@+id/labelDadosLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dados de Login :"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="13dp"/>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <AutoCompleteTextView
@@ -67,7 +180,8 @@ tools:showIn="@layout/activity_login">
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
 
                 <EditText
                     android:id="@+id/password"
@@ -76,7 +190,24 @@ tools:showIn="@layout/activity_login">
                     android:hint="@string/prompt_password"
                     android:imeActionId="@+id/sign_up"
                     android:imeActionLabel="@string/action_sign_up_short"
-                    android:imeOptions="actionUnspecified"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
+
+                <EditText
+                    android:id="@+id/password2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/prompt_password_again"
+                    android:imeActionId="@+id/sign_up"
+                    android:imeActionLabel="@string/action_sign_up_short"
                     android:inputType="textPassword"
                     android:maxLines="1"
                     android:singleLine="true" />

@@ -18,7 +18,10 @@ public class User {
     private String email;
     private String password;
     private String newPassword;
-    //private DadosUsuario dadosUsuario;
+    private String tipoUsuario;
+    private String rg;
+    private String dataNascimento;
+
 
     public User(){}
 
@@ -95,4 +98,32 @@ public class User {
     public void setNewPassword(String newPassword) {
         this.newPassword = newPassword;
     }
+
+    public String getTipoUsuario() {
+        return tipoUsuario;
+    }
+    public void setTipoUsuario(String teste) {
+        this.tipoUsuario = teste;
+    }
+
+    public String getRg() {
+        return rg;
+    }
+    public void setRg(String rg) {
+        this.rg = rg;
+    }
+
+
+    public String getDataNascimento() {
+        return dataNascimento;
+    }
+    public void setDataNascimento(String dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
+
+
+
+
+
+
 }

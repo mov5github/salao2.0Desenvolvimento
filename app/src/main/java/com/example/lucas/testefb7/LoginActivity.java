@@ -106,10 +106,20 @@ public class LoginActivity extends CommonActivity implements GoogleApiClient.OnC
     }
 
     public void sendLoginData( View view ){
-        FirebaseCrash.log("LoginActivity:clickListener:button:sendLoginData()");
-        openProgressBar();
-        initUser();
-        verifyLogin();
+        if (validaFormulario()){
+            FirebaseCrash.log("LoginActivity:clickListener:button:sendLoginData()");
+            openProgressBar();
+            initUser();
+            verifyLogin();
+        }
+    }
+
+    private Boolean validaFormulario(){
+        if (emailIsValid() && passwordIsvalid()){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     private void verifyLogged(){
@@ -196,6 +206,33 @@ public class LoginActivity extends CommonActivity implements GoogleApiClient.OnC
         startActivity(intent);
     }
 
+    private Boolean emailIsValid(){
+        if (email.getText().toString().isEmpty()){
+            email.setError("Campo Obrigatório");
+            email.requestFocus();
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    private Boolean passwordIsvalid(){
+        if (password.getText().toString().isEmpty()){
+            password.setError("Campo Obrigatório");
+            password.requestFocus();
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public void sendLoginFacebookData(View view) {
+        showToast("Desculpe, login pelo Facebook não disponível");
+    }
+
+    public void sendLoginGoogleData(View view) {
+        showToast("Desculpe, login pelo Google não disponível");
+    }
 
 
 }
