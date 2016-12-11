@@ -13,14 +13,29 @@ import com.google.firebase.database.DatabaseReference;
 public class User {
     public static String PROVIDER = "com.example.lucas.testefb7.domain.User.PROVIDER";
 
+    private String inicialConfig;
+
     private String id;
     private String name;
     private String email;
     private String password;
     private String newPassword;
     private String tipoUsuario;
+    private String telefone1;
+    private String telefone2;
+    //cliente / responsavel
     private String rg;
     private String dataNascimento;
+    private String sexo;
+    //salão
+    private String nomeSalao;
+    private String publico;
+    private String estado;
+    private String cidade;
+    private String rua;
+    private String numEndereco;
+    private String complementoEndereco;
+    private int numCadastro;
 
 
     public User(){}
@@ -36,6 +51,8 @@ public class User {
             firebase.setValue(this, completionListener[0]);
         }
     }
+
+
 
     public boolean isSocialNetworkLogged( Context context ){
         String token = getProviderSP( context );
@@ -113,13 +130,94 @@ public class User {
         this.rg = rg;
     }
 
-
     public String getDataNascimento() {
         return dataNascimento;
     }
     public void setDataNascimento(String dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
+
+    public String getSexo() {
+        return sexo;
+    }
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+
+    public String getTelefone1() {
+        return telefone1;
+    }
+    public void setTelefone1(String telefone1) {
+        this.telefone1 = telefone1;
+    }
+
+    public String getTelefone2() {
+        return telefone2;
+    }
+    public void setTelefone2(String telefone2) {
+        this.telefone2 = telefone2;
+    }
+
+
+    public String getEstado() {
+        return estado;
+    }
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public String getComplementoEndereco() {
+        return complementoEndereco;
+    }
+    public void setComplementoEndereco(String complementoEndereco) {
+        this.complementoEndereco = complementoEndereco;
+    }
+
+    public String getNumEndereco() {
+        return numEndereco;
+    }
+    public void setNumEndereco(String numEndereco) {
+        this.numEndereco = numEndereco;
+    }
+
+    public String getCidade() {
+        return cidade;
+    }
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
+    }
+
+    public String getPublico() {
+        return publico;
+    }
+    public void setPublico(String publico) {
+        this.publico = publico;
+    }
+
+    public String getNomeSalao() {
+        return nomeSalao;
+    }
+    public void setNomeSalao(String nomeSalao) {
+        this.nomeSalao = nomeSalao;
+    }
+
+    public String getRua() {
+        return rua;
+    }
+    public void setRua(String rua) {
+        this.rua = rua;
+    }
+
+    public int getNumCadastro() {
+        return numCadastro;
+    }
+
+    public void setNumCadastro(int numCadastro) {
+        this.numCadastro = numCadastro;
+    }
+
+
+
 
 
 

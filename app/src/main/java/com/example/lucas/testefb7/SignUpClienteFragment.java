@@ -40,10 +40,17 @@ public class SignUpClienteFragment extends Fragment  {
     protected AutoCompleteTextView name;
     protected AutoCompleteTextView email;
     protected EditText password;
+    protected EditText password2;
     private AutoCompleteTextView rg;
     private EditText dataNascimento;
     private DatePickerDialog fromDatePickerDialog;
     private SimpleDateFormat dateFormatter;
+    private AutoCompleteTextView tefefone1;
+    private AutoCompleteTextView tefefone2;
+    private RadioGroup sexo;
+
+
+
 
 
 
@@ -69,13 +76,16 @@ public class SignUpClienteFragment extends Fragment  {
         name = (AutoCompleteTextView) view.findViewById(R.id.name);
         email = (AutoCompleteTextView) view.findViewById(R.id.email);
         password = (EditText) view.findViewById(R.id.password);
+        password2 = (EditText) view.findViewById(R.id.password2);
         rg = (AutoCompleteTextView) view.findViewById(R.id.rg);
         dataNascimento = (EditText) view.findViewById(R.id.data_nascimento);
         dataNascimento.setInputType(InputType.TYPE_NULL);
         dataNascimento.setText("dd/mm/aaaa");
         dateFormatter = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
-
-
+        sexo = (RadioGroup) view.findViewById(R.id.radio_group_sexo) ;
+        tefefone1 = (AutoCompleteTextView) view.findViewById(R.id.telefone1);
+        tefefone1.setText(obterNumTelefone());
+        tefefone2= (AutoCompleteTextView) view.findViewById(R.id.telefone2);
     }
 
     private void setDateTimeField() {
@@ -98,7 +108,8 @@ public class SignUpClienteFragment extends Fragment  {
 
 
     public boolean validaFormulario(){
-       if (nameIsValid() && emailIsValid() && passwordIsvalid() && rgIsValid() && dataNascimentoIsValid()){
+       if (nameIsValid() && dataNascimentoIsValid() && rgIsValid() && sexoIsValid() && telefone1IsValid()
+                && telefone2IsValid() && emailIsValid() && passwordIsvalid() && password2Isvalid()){
            return true;
        }else return false;
     }
@@ -133,6 +144,20 @@ public class SignUpClienteFragment extends Fragment  {
         }
     }
 
+    private Boolean password2Isvalid(){
+        if (password2.getText().toString().isEmpty()){
+            password2.setError("Campo Obrigatório");
+            password2.requestFocus();
+            return false;
+        }else if (!password2.getText().toString().equals(password.getText().toString())){
+            password2.setError("As senhas devem ser iguais!");
+            password2.requestFocus();
+            return false;
+        }else{
+            return true;
+        }
+    }
+
     private Boolean rgIsValid(){
         if (rg.getText().toString().isEmpty()){
             rg.setError("Campo Obrigatório");
@@ -144,7 +169,7 @@ public class SignUpClienteFragment extends Fragment  {
     }
 
     private Boolean dataNascimentoIsValid(){
-        if (dataNascimento.getText().toString().isEmpty()){
+        if (dataNascimento.getText().toString().isEmpty() || dataNascimento.getText().toString().equals("dd/mm/aaaa")){
             dataNascimento.setError("Campo Obrigatório");
             dataNascimento.requestFocus();
             return false;
@@ -153,6 +178,59 @@ public class SignUpClienteFragment extends Fragment  {
         }
     }
 
+    private Boolean sexoIsValid(){
+       switch (sexo.getCheckedRadioButtonId()){
+           case R.id.radio_masculino:
+               return true;
+           case R.id.radio_feminino:
+               return true;
+           default:
+               Toast.makeText(getActivity(), "Campo Sexo não selecionado!", Toast.LENGTH_LONG).show();
+               sexo.requestFocus();
+               return false;
+       }
+    }
+
+    private Boolean telefone1IsValid(){
+        if (tefefone1.getText().toString().isEmpty()){
+            tefefone1.setError("Campo Obrigatório");
+            tefefone1.requestFocus();
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    private Boolean telefone2IsValid(){
+        return true;
+    }
+
+
+
+
+
+    private String obterNumTelefone(){
+        //TODO impelmentar cod que pega automatico numero do celular
+        return "";
+    }
+
+
+
+    public String getStringRg(){
+        return rg.getText().toString();
+    }
+
+    public String getStringDataNascimento(){
+        return dataNascimento.getText().toString();
+    }
+
+    public String getStringTelefone1(){
+        return tefefone1.getText().toString();
+    }
+
+    public String getStringTelefone2(){
+        return tefefone2.getText().toString();
+    }
 
     //Getters and Setters
     public AutoCompleteTextView getName() {
@@ -165,14 +243,6 @@ public class SignUpClienteFragment extends Fragment  {
 
     public EditText getPassword() {
         return password;
-    }
-
-    public AutoCompleteTextView getRg() {
-        return rg;
-    }
-
-    public EditText getDataNascimento() {
-        return dataNascimento;
     }
 
     public DatePickerDialog getFromDatePickerDialog() {

@@ -124,7 +124,7 @@ public class LoginActivity extends CommonActivity implements GoogleApiClient.OnC
 
     private void verifyLogged(){
         if( mAuth.getCurrentUser() != null ){
-            callHomeActivity();
+            callConfiguracaoInicialActivity();
         }
         else{
             mAuth.addAuthStateListener( mAuthListener );
@@ -177,7 +177,7 @@ public class LoginActivity extends CommonActivity implements GoogleApiClient.OnC
                     user.saveDB();
                 }
 
-                callHomeActivity();
+                callConfiguracaoInicialActivity();
             }
         };
         return( callback );
@@ -192,6 +192,12 @@ public class LoginActivity extends CommonActivity implements GoogleApiClient.OnC
 
     private void callHomeActivity(){
         Intent intent  = new Intent(this, HomeActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void callConfiguracaoInicialActivity(){
+        Intent intent  = new Intent(this, ConfiguracaoInicialActivity.class);
         startActivity(intent);
         finish();
     }

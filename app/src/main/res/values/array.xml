@@ -5,4 +5,18 @@
         <item>Masculino</item>
         <item>Feminino</item>
     </string-array>
+
+    <string-array name="spinner_duracao_almoco">
+        <item>---</item>
+        <item>15min</item>
+        <item>30min</item>
+        <item>45min</item>
+        <item>1hora</item>
+        <item>1hora e 15min</item>
+        <item>1hora e 30min</item>
+        <item>2horas</item>
+        <item>3horas</item>
+        <item>4horas</item>
+        <item>5horas</item>
+    </string-array>
 </resources>

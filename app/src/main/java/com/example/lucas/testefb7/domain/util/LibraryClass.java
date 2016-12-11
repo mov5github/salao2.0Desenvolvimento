@@ -12,6 +12,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class LibraryClass {
     public static String PREF = "com.example.lucas.testefb7.PREF";
+
     private static DatabaseReference firebase;
 
     private LibraryClass(){}

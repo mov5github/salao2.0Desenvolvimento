@@ -21,6 +21,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.lucas.testefb7.domain.User;
+import com.example.lucas.testefb7.domain.util.LibraryClass;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -28,8 +29,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.crash.FirebaseCrash;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 public class SignUpActivity extends CommonActivity implements DatabaseReference.CompletionListener {
 
@@ -37,8 +40,9 @@ public class SignUpActivity extends CommonActivity implements DatabaseReference.
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private User user;
     private AutoCompleteTextView name;
-    private AutoCompleteTextView rg;
-    private TextView dataNascimento;
+    private String sexo;
+    private String publico;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +67,6 @@ public class SignUpActivity extends CommonActivity implements DatabaseReference.
                 user.saveDB( SignUpActivity.this );
             }
         };
-
-
 
 
     }
@@ -92,21 +94,19 @@ public class SignUpActivity extends CommonActivity implements DatabaseReference.
             name = ((SignUpClienteFragment) fragment).getName();
             email = ((SignUpClienteFragment) fragment).getEmail();
             password = ((SignUpClienteFragment) fragment).getPassword();
-            rg = ((SignUpClienteFragment)fragment).getRg();
-            dataNascimento = ((SignUpClienteFragment) fragment).getDataNascimento();
-
+            publico = new String();
         }else if (fragment instanceof SignUpSalaoFragment){
             name = ((SignUpSalaoFragment) fragment).getName();
             email = ((SignUpSalaoFragment) fragment).getEmail();
             password = ((SignUpSalaoFragment) fragment).getPassword();
-
+            sexo = new String();
         }
         else{
             name = new AutoCompleteTextView(this);
             email = new AutoCompleteTextView(this);
             password = new EditText(this);
-            rg = new AutoCompleteTextView(this);
-            dataNascimento = new AutoCompleteTextView(this);
+            sexo = new String();
+            publico = new String();
         }
 
     }
@@ -120,10 +120,24 @@ public class SignUpActivity extends CommonActivity implements DatabaseReference.
         user.setPassword( password.getText().toString() );
         if (fragment instanceof SignUpClienteFragment){
             user.setTipoUsuario("cliente");
-            user.setRg(rg.getText().toString());
-            user.setDataNascimento(dataNascimento.getText().toString());
+            user.setRg(((SignUpClienteFragment) fragment).getStringRg());
+            user.setDataNascimento(((SignUpClienteFragment) fragment).getStringDataNascimento());
+            user.setSexo(sexo);
+            user.setTelefone1(((SignUpClienteFragment) fragment).getStringTelefone1());
+            user.setTelefone2(((SignUpClienteFragment) fragment).getStringTelefone2());
         }else if (fragment instanceof SignUpSalaoFragment){
             user.setTipoUsuario("salao");
+            user.setRg(((SignUpSalaoFragment) fragment).getStringRg());
+            user.setDataNascimento(((SignUpSalaoFragment) fragment).getStringDataNascimento());
+            user.setPublico(publico);
+            user.setNomeSalao(((SignUpSalaoFragment) fragment).getStringNomeSalao());
+            user.setTelefone1(((SignUpSalaoFragment) fragment).getStringTelefone1());
+            user.setTelefone2(((SignUpSalaoFragment) fragment).getStringTelefone2());
+            user.setEstado(((SignUpSalaoFragment) fragment).getStringEstado());
+            user.setCidade(((SignUpSalaoFragment) fragment).getStringCidade());
+            user.setRua(((SignUpSalaoFragment) fragment).getStringRua());
+            user.setNumEndereco(((SignUpSalaoFragment) fragment).getStringNumEndereco());
+            user.setComplementoEndereco(((SignUpSalaoFragment) fragment).getStringComplementoEndereco());
         }
 
     }
@@ -159,6 +173,96 @@ public class SignUpActivity extends CommonActivity implements DatabaseReference.
 
     public void linkAqui(View view) {
         finish();
+    }
+
+    public void onRadioButtonClickedTipoCadastro(View view) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+
+        // Check which radio button was clicked
+        switch (view.getId()) {
+            case R.id.radio_cliente:
+                if (checked) {
+                    tronaBotaoVisivel();
+                    SignUpClienteFragment fragCliente = new SignUpClienteFragment();;
+                    replaceFragment(fragCliente);
+                }
+                break;
+            case R.id.radio_salao:
+                if (checked) {
+                    tronaBotaoVisivel();
+                    SignUpSalaoFragment fragSalao = new SignUpSalaoFragment();
+                    replaceFragment(fragSalao);
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void onRadioButtonSexoClicked(View view) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+
+        // Check which radio button was clicked
+        switch (view.getId()) {
+            case R.id.radio_masculino:
+                if (checked) {
+                    sexo ="masculino";
+                    showToast("masculino");
+                }
+                break;
+            case R.id.radio_feminino:
+                if (checked) {
+                    sexo = "feminino";
+                    showToast("feminino");
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void onRadioButtonGeneroClicked(View view) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+
+        // Check which radio button was clicked
+        switch (view.getId()) {
+            case R.id.radio_masculino:
+                if (checked) {
+                    publico = "masculino";
+                    showToast("masculino");
+                }
+                break;
+            case R.id.radio_feminino:
+                if (checked) {
+                    publico = "feminino";
+                    showToast("feminino");
+                }
+                break;
+            case R.id.radio_unisex:
+                if (checked) {
+                    publico = "unisex";
+                    showToast("unisex");
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void dataNascimento(View view) {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container_signup);
+
+        //validacoe de campos fragmentCliente
+        if (fragment instanceof SignUpClienteFragment){
+            ((SignUpClienteFragment) fragment).getFromDatePickerDialog().show();
+        }
+        //validacao de campos fragmentSalao
+        else if (fragment instanceof SignUpSalaoFragment){
+            ((SignUpSalaoFragment) fragment).getFromDatePickerDialog().show();
+        }
     }
 
     private void saveUser(){
@@ -197,6 +301,8 @@ public class SignUpActivity extends CommonActivity implements DatabaseReference.
 
     }
 
+
+
     private Boolean validaFormulario(){
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container_signup);
 
@@ -222,58 +328,7 @@ public class SignUpActivity extends CommonActivity implements DatabaseReference.
         else return false;
     }
 
-    public void onRadioButtonClickedTipoCadastro(View view) {
-        // Is the button now checked?
-        boolean checked = ((RadioButton) view).isChecked();
 
-        // Check which radio button was clicked
-        switch (view.getId()) {
-            case R.id.radio_cliente:
-                if (checked) {
-                    tronaBotaoVisivel();
-                    SignUpClienteFragment fragCliente = new SignUpClienteFragment();;
-                    replaceFragment(fragCliente);
-                }
-                break;
-            case R.id.radio_salao:
-                if (checked) {
-                    tronaBotaoVisivel();
-                    SignUpSalaoFragment fragSalao = new SignUpSalaoFragment();
-                    replaceFragment(fragSalao);
-                }
-                break;
-            default:
-                break;
-        }
-    }
-
-    public void onRadioButtonSexoClicked(View view) {
-        // Is the button now checked?
-        boolean checked = ((RadioButton) view).isChecked();
-
-        // Check which radio button was clicked
-        switch (view.getId()) {
-            case R.id.radio_masculino:
-                if (checked) {
-                    showToast("masculino");
-                }
-                break;
-            case R.id.radio_feminino:
-                if (checked) {
-                   showToast("feminino");
-                }
-                break;
-            default:
-                break;
-        }
-    }
-
-    public void dataNascimento(View view) {
-        SignUpClienteFragment fragment = (SignUpClienteFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container_signup);
-        fragment.getFromDatePickerDialog().show();
-
-
-    }
 
     public void tronaBotaoVisivel(){
         Button button = (Button)findViewById(R.id.button_cadastrar);

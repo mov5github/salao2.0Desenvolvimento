@@ -92,6 +92,7 @@ tools:showIn="@layout/activity_sign_up">
                 android:layout_marginTop="5dp"/>
 
             <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/radio_group_sexo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -109,6 +110,7 @@ tools:showIn="@layout/activity_sign_up">
                     android:text="@string/prompt_feminino"
                     android:onClick="onRadioButtonSexoClicked"/>
             </RadioGroup>
+
 
             <TableLayout
                 android:layout_width="match_parent"
@@ -144,7 +146,7 @@ tools:showIn="@layout/activity_sign_up">
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/prompt_telefone2"
-                            android:inputType="textAutoComplete"
+                            android:inputType="phone"
                             android:maxLines="1"
                             android:singleLine="true" />
 
