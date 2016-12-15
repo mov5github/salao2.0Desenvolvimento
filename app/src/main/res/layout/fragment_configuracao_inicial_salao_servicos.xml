@@ -13,8 +13,173 @@
     tools:showIn="@layout/activity_configuracao_inicial">
 
     <TextView
+        android:id="@+id/label_titulo"
+        android:text="Serviços oferecidos pelo salão:"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SERVICOS"/>
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="15dp"/>
+
+    <TextView
+        android:id="@+id/label_adicionar_serviço"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Adicione um serviço a lista:"
+        android:layout_below="@+id/label_titulo"
+        android:layout_marginBottom="3dp"/>
+
+    <LinearLayout
+        android:id="@+id/ll_servicos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/label_adicionar_serviço"
+        android:layout_marginBottom="15dp">
+
+        <TableLayout
+            android:id="@+id/table_layout_servico"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="5dp">
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/form_nome_servico"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/nome_servico"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Nome do serviço"
+                        android:inputType="textPersonName"
+                        android:maxLines="1"
+                        android:singleLine="true" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <ImageView
+                    android:id="@+id/imageview_icones"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_launcher"
+                    android:layout_gravity="bottom">
+                </ImageView>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="5dp">
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/form_preco_servico"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_gravity="bottom">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/preco_servico"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Preço R$ :"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:singleLine="true" />
+
+                </android.support.design.widget.TextInputLayout>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Duração:"
+                    android:layout_marginRight="3dp"
+                    android:layout_marginEnd="3dp"
+                    android:layout_marginBottom="1dp"
+                    android:layout_gravity="bottom"/>
+
+                <Spinner
+                    android:id="@+id/spinner_duracao_servico_horas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom">
+                </Spinner>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="e"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginEnd="2dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginBottom="1dp"
+                    android:layout_gravity="bottom"/>
+
+                <Spinner
+                    android:id="@+id/spinner_duracao_servico_minutos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom">
+                </Spinner>
+
+            </TableRow>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/form_descricao_servico"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <AutoCompleteTextView
+                    android:id="@+id/descricao_servico"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Descriçao rápida"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+
+            </android.support.design.widget.TextInputLayout>
+
+        </TableLayout>
+
+        <ImageButton
+            android:id="@+id/button_adicionar_servico"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/plus_circle_outline"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            android:onClick="adicionarServiçoListView"
+            android:layout_gravity="center_vertical" />
+
+    </LinearLayout>
+
+
+    <ListView
+        android:id="@+id/listview_servicos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#cccccc"
+        android:layout_below="@+id/ll_servicos"
+        android:layout_alignParentBottom="true"></ListView>
+
 
 </RelativeLayout>

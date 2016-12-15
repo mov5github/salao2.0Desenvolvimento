@@ -10,6 +10,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -21,6 +22,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.lucas.testefb7.domain.User;
+import com.example.lucas.testefb7.domain.util.LibraryClass;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -31,8 +33,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.crash.FirebaseCrash;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends CommonActivity implements GoogleApiClient.OnConnectionFailedListener{
     private FirebaseAuth mAuth;
@@ -122,9 +126,13 @@ public class LoginActivity extends CommonActivity implements GoogleApiClient.OnC
         }
     }
 
+
+
     private void verifyLogged(){
         if( mAuth.getCurrentUser() != null ){
-            callConfiguracaoInicialActivity();
+            if (mAuth.getCurrentUser().getUid() != null && !mAuth.getCurrentUser().getUid().isEmpty()){
+                callConfiguracaoInicialActivity(mAuth.getCurrentUser().getUid());
+            }else callConfiguracaoInicialActivity("");
         }
         else{
             mAuth.addAuthStateListener( mAuthListener );
@@ -176,8 +184,11 @@ public class LoginActivity extends CommonActivity implements GoogleApiClient.OnC
                     user.setEmailIfNull( userFirebase.getEmail() );
                     user.saveDB();
                 }
+                if (userFirebase.getUid()!= null && !userFirebase.getUid().isEmpty()){
+                    callConfiguracaoInicialActivity(userFirebase.getUid());
 
-                callConfiguracaoInicialActivity();
+                }else callConfiguracaoInicialActivity("");
+
             }
         };
         return( callback );
@@ -196,8 +207,9 @@ public class LoginActivity extends CommonActivity implements GoogleApiClient.OnC
         finish();
     }
 
-    private void callConfiguracaoInicialActivity(){
+    private void callConfiguracaoInicialActivity(String id){
         Intent intent  = new Intent(this, ConfiguracaoInicialActivity.class);
+        intent.putExtra("id",id);
         startActivity(intent);
         finish();
     }

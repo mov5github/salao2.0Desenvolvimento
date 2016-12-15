@@ -310,6 +310,10 @@ public class ConfiguracaoInicialSalaoFuncionamentoFragment extends Fragment{
             showToast("Preencher a duração padrão dos almoços!");
             return false;
         }
+        if(!segunda.isChecked() && !terca.isChecked() && !quarta.isChecked() && !quinta.isChecked() && !sexta.isChecked() && !sabado.isChecked() && !domingo.isChecked()){
+            showToast("Selecionar pelo menos um dia da semana!");
+            return false;
+        }
         return true;
 
     }

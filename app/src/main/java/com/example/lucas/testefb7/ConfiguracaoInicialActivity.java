@@ -2,6 +2,7 @@ package com.example.lucas.testefb7;
 
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -13,16 +14,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.lucas.testefb7.Auxiliares.Funcionamento;
+import com.example.lucas.testefb7.Auxiliares.Servico;
 import com.example.lucas.testefb7.domain.User;
 import com.example.lucas.testefb7.domain.util.LibraryClass;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,12 +40,14 @@ import java.util.HashMap;
 public class ConfiguracaoInicialActivity extends AppCompatActivity  implements DatabaseReference.CompletionListener  {
 
     private String REF_CODIGO_SALAO = "com.example.lucas.testefb7.REF_CODIGO_SALAO";
-    private HashMap expediente;
     private ProgressBar progressBar;
     protected int numCadastro = 0 ;
     protected int controlNumCadastro;
     private Funcionamento funcionamento;
     protected Boolean whileControlsaveDBControladorCodigoSalao = true;
+    private String id;
+    protected Boolean funcionamentoOK = false;
+    protected Boolean servicosOK = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,17 +59,19 @@ public class ConfiguracaoInicialActivity extends AppCompatActivity  implements D
         progressBar = (ProgressBar) findViewById(R.id.configuracao_inicial_progress);
 
         resgataDBControladorCodigoSalao();
+        recebeDadosActivityPai();
+        verificaTipoUsuario();
+        REF_CODIGO_SALAO = REF_CODIGO_SALAO+id;
+
+        openProgressBar();
+
+
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                while (getSPCodigoSalao(ConfiguracaoInicialActivity.this,REF_CODIGO_SALAO) == 0 && whileControlsaveDBControladorCodigoSalao){
-                    Log.i("firebase","while inciado");
-                    gerarNumCadastroUnico();
-                }
-
-                /*Snackbar.make(view, "ok" , Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
+                Snackbar.make(view, id , Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
 
             }
         });
@@ -75,19 +85,6 @@ public class ConfiguracaoInicialActivity extends AppCompatActivity  implements D
         }else {
             Log.i("firebase","numCadastro alterado");
             saveSPCodigoSalao(ConfiguracaoInicialActivity.this,REF_CODIGO_SALAO,controlNumCadastro);
-            funcionamento.saveDBFuncionamento(String.valueOf(getSPCodigoSalao(ConfiguracaoInicialActivity.this,REF_CODIGO_SALAO)), new DatabaseReference.CompletionListener() {
-                @Override
-                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                    Log.i("firebase","onComplete saveDBFuncionamento");
-                    if (databaseError != null){
-                        Log.i("firebase","funcionamento nao foi salvo");
-                        closeProgressBar();
-                    }else {
-                        Log.i("firebase","funcionamento salvo");
-                        closeProgressBar();
-                    }
-                }
-            });
         }
         Log.i("firebase","onComplete Activity fim");
         whileControlsaveDBControladorCodigoSalao = true;
@@ -103,9 +100,44 @@ public class ConfiguracaoInicialActivity extends AppCompatActivity  implements D
             if (((ConfiguracaoInicialSalaoFuncionamentoFragment)fragment).validaFormulario()){
                 Log.i("validaçao","form valido");
                 funcionamento =((ConfiguracaoInicialSalaoFuncionamentoFragment)fragment).geraFuncionamento();
-                while (getSPCodigoSalao(ConfiguracaoInicialActivity.this,REF_CODIGO_SALAO) == 0 && whileControlsaveDBControladorCodigoSalao){
-                    gerarNumCadastroUnico();
+                if (getSPCodigoSalao(ConfiguracaoInicialActivity.this,REF_CODIGO_SALAO) == 0){
+                    while (getSPCodigoSalao(ConfiguracaoInicialActivity.this,REF_CODIGO_SALAO) == 0 && whileControlsaveDBControladorCodigoSalao){
+                        gerarNumCadastroUnico();
+                    }
+                    funcionamento.saveDBFuncionamento(String.valueOf(getSPCodigoSalao(ConfiguracaoInicialActivity.this,REF_CODIGO_SALAO)), new DatabaseReference.CompletionListener() {
+                        @Override
+                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                            Log.i("firebase","onComplete saveDBFuncionamento");
+                            if (databaseError != null){
+                                Log.i("firebase","funcionamento nao foi salvo");
+                                closeProgressBar();
+                            }else {
+                                Log.i("firebase","funcionamento salvo");
+                                funcionamentoOK = true;
+                                closeProgressBar();
+                            }
+                        }
+                    });
+                }else{
+                    Log.i("salvar","salao ja possui numCadastroUnico ");
+                    funcionamento.saveDBFuncionamento(String.valueOf(getSPCodigoSalao(ConfiguracaoInicialActivity.this,REF_CODIGO_SALAO)), new DatabaseReference.CompletionListener() {
+                        @Override
+                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                            Log.i("firebase","onComplete saveDBFuncionamento");
+                            if (databaseError != null){
+                                Log.i("firebase","funcionamento nao foi salvo");
+                                closeProgressBar();
+                            }else {
+                                Log.i("firebase","funcionamento salvo");
+                                showToast("Funcionamento Salvo!");
+                                funcionamentoOK = true;
+                                closeProgressBar();
+                            }
+                        }
+                    });
+                    closeProgressBar();
                 }
+
             }else{
                 Log.i("salvar","formulario invalido Não salvou funcionamento no DB");
                 closeProgressBar();
@@ -230,6 +262,12 @@ public class ConfiguracaoInicialActivity extends AppCompatActivity  implements D
         ((ConfiguracaoInicialSalaoFuncionamentoFragment)fragment).aplicaVisibilidadeHorarios(view);
     }
 
+    public void adicionarServiçoListView(View view) {
+        Servico servico = new Servico("servico",R.drawable.icone1);
+        ConfiguracaoInicialSalaoServicosFragment fragment = (ConfiguracaoInicialSalaoServicosFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container_configuracao_inicial);
+        fragment.addListview();
+    }
+
 
 
     private void gerarNumCadastroUnico(){
@@ -277,8 +315,87 @@ public class ConfiguracaoInicialActivity extends AppCompatActivity  implements D
 
     }
 
+    private void verificaTipoUsuario(){
+        DatabaseReference firebase = LibraryClass.getFirebase().child("users").child( id ).child("tipoUsuario");
+        firebase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot != null  && dataSnapshot.getValue() != null){
+                    if (dataSnapshot.getValue().toString().equals("cliente")){
+                        ConfiguracaoInicialClienteFragment frag = new ConfiguracaoInicialClienteFragment();
+                        replaceFragment(frag);
+                        closeProgressBar();
+                    }else if (dataSnapshot.getValue().toString().equals("salao")){
+                        RadioGroup radioGroup = (RadioGroup)findViewById(R.id.radiogroup_etapa_configuracao);
+                        radioGroup.setVisibility(View.VISIBLE);
+                        TextView textView = (TextView) findViewById(R.id.label_tipo_cadastro);
+                        textView.setVisibility(View.VISIBLE);
+                        Button button = (Button) findViewById(R.id.button_salvar);
+                        button.setVisibility(View.VISIBLE);
+                        verificaEtapa();
+                    }else{
+                        Log.i("firebase","tipoUsuaruo Invalido");
+                        showToast("erro ao acessar banco de dados");
+                        closeProgressBar();
+                    }
+                }
 
 
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void verificaEtapa(){
+        if (getSPCodigoSalao(ConfiguracaoInicialActivity.this,REF_CODIGO_SALAO) != 0){
+            if (!funcionamentoOK){
+                DatabaseReference firebase = LibraryClass.getFirebase().child("salões").child( String.valueOf(getSPCodigoSalao(ConfiguracaoInicialActivity.this,REF_CODIGO_SALAO)) ).child("funcionamento");
+                firebase.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot == null || dataSnapshot.getValue() == null){
+                            RadioButton radioButton = (RadioButton) findViewById(R.id.radio_funcionamento);
+                            radioButton.setChecked(true);
+                            ConfiguracaoInicialSalaoFuncionamentoFragment frag = new ConfiguracaoInicialSalaoFuncionamentoFragment();
+                            replaceFragment(frag);
+                            closeProgressBar();
+                        }else {
+                            RadioButton radioButton = (RadioButton) findViewById(R.id.radio_servicos);
+                            radioButton.setChecked(true);
+                            ConfiguracaoInicialSalaoServicosFragment frag = new ConfiguracaoInicialSalaoServicosFragment();
+                            replaceFragment(frag);
+                            funcionamentoOK = true;
+                            closeProgressBar();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        closeProgressBar();
+                        Log.i("firebase","verificaEtapa() onCacelled");
+
+                    }
+                });
+            }
+
+        }
+
+    }
+
+
+    private void recebeDadosActivityPai(){
+        Intent intent = getIntent();
+        if (intent.getStringExtra("id") != null){
+            id = intent.getStringExtra("id");
+        }else{
+            id = "";
+        }
+
+    }
 
 
     private void replaceFragment(Fragment fragment) {
@@ -300,7 +417,7 @@ public class ConfiguracaoInicialActivity extends AppCompatActivity  implements D
     }
 
     protected void showToast( String message ){
-        Toast.makeText(this,
+        Toast.makeText(ConfiguracaoInicialActivity.this,
                 message,
                 Toast.LENGTH_LONG)
                 .show();
@@ -313,5 +430,6 @@ public class ConfiguracaoInicialActivity extends AppCompatActivity  implements D
     protected void closeProgressBar(){
         progressBar.setVisibility( View.GONE );
     }
+
 
 }

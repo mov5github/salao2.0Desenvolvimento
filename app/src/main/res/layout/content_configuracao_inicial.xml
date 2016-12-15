@@ -31,7 +31,8 @@
         android:textColor="#000000"
         android:textStyle="bold"
         android:layout_marginBottom="10dp"
-        android:layout_alignParentTop="true"/>
+        android:layout_alignParentTop="true"
+        android:visibility="invisible"/>
     <RadioGroup
         android:id="@+id/radiogroup_etapa_configuracao"
         android:layout_width="wrap_content"
@@ -39,7 +40,8 @@
         android:orientation="horizontal"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="13dp"
-        android:layout_below="@+id/label_tipo_cadastro">
+        android:layout_below="@+id/label_tipo_cadastro"
+        android:visibility="invisible">
         <RadioButton android:id="@+id/radio_funcionamento"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -58,6 +60,16 @@
             android:textAlignment="center"/>
     </RadioGroup>
 
+
+    <FrameLayout
+        android:id="@+id/fragment_container_configuracao_inicial"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/radiogroup_etapa_configuracao"
+        android:layout_above="@+id/button_salvar">
+
+    </FrameLayout>
+
     <Button
         android:onClick="salvar"
         android:id="@+id/button_salvar"
@@ -70,16 +82,7 @@
         android:textStyle="bold"
         android:layout_centerHorizontal="true"
         android:textAlignment="center"
-        android:layout_below="@+id/radiogroup_etapa_configuracao"
-        android:visibility="visible"/>
-
-
-    <FrameLayout
-        android:id="@+id/fragment_container_configuracao_inicial"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/button_salvar">
-
-    </FrameLayout>
+        android:layout_alignParentBottom="true"
+        android:visibility="invisible"/>
 
 </RelativeLayout>

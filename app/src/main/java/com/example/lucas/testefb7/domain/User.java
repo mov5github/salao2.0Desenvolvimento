@@ -72,6 +72,13 @@ public class User {
 
     }
 
+    public void setTipoUsuarioIfNull(String tipoUsuario) {
+        if( this.tipoUsuario == null ){
+            this.tipoUsuario = tipoUsuario;
+        }
+
+    }
+
     public void saveProviderSP(Context context, String token ){
         LibraryClass.saveSP( context, PROVIDER, token );
     }
